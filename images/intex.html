@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>СтройМаркет - Онлайн Заказ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            background: #2c3e50;
+            color: #fff;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+        }
+        .products-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto 40px auto;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 15px;
+            text-align: center;
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .product-card h3 {
+            margin: 15px 0 10px 0;
+            color: #333;
+        }
+        .product-card .price {
+            font-weight: bold;
+            color: #e67e22;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+        .quantity-input {
+            width: 60px;
+            padding: 5px;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        .order-form {
+            background: #fff;
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .order-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .btn-submit {
+            width: 100%;
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 12px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .btn-submit:hover {
+            background: #219150;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>СтройМаркет курулуш дүкөнү</h1>
+        <p>Керектүү товардын көлөмүн жазып, төмөнкү форманы толтуруңуз!</p>
+    </header>
+
+    <div class="products-container">
+        
+        <div class="product-card">
+            <img src="images/myk.webp" alt="Мык">
+            <h3>Мык (ар кандай өлчөмдө)</h3>
+            <p class="price">120 сом / кг</p>
+            <label>Көлөмү (кг): </label>
+            <input type="number" class="quantity-input" id="myk-qty" value="0" min="0">
+        </div>
+
+        <div class="product-card">
+            <img src="images/cement.jpg" alt="Цемент">
+            <h3>Цемент А-500</h3>
+            <p class="price">450 сом / кап</p>
+            <label>Көлөмү (кап): </label>
+            <input type="number" class="quantity-input" id="cement-qty" value="0" min="0">
+        </div>
+
+        <div class="product-card">
+            <img src="images/shpaklevka.png" alt="Шпаклевка">
+            <h3>Шпаклёвка (Түрк)</h3>
+            <p class="price">380 сом / кап</p>
+            <label>Көлөмү (кап): </label>
+            <input type="number" class="quantity-input" id="shpak-qty" value="0" min="0">
+        </div>
+
+    </div>
+
+    <div class="order-form">
+        <h2>Жеткирүү маалыматы</h2>
+        <form id="orderForm">
+            <div class="form-group">
+                <label for="username">Атыңыз:</label>
+                <input type="text" id="username" placeholder="Атыңызды жазыңыз" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Телефон номериңиз:</label>
+                <input type="tel" id="phone" placeholder="070014898" required>
+            </div>
+            <div class="form-group">
+                <label for="address">Жеткирүү дареги (Көчө, үй, батир):</label>
+                <textarea id="address" rows="3" placeholder="Мисалы: Тынчтык көчөсү, 24-үй, 5-батир" required></textarea>
+            </div>
+            <button type="button" class="btn-submit" onclick="sendOrder()">Заказды жөнөтүү</button>
+        </form>
+    </div>
+
+    <script>
+        function sendOrder() {
+            // Сиздин WhatsApp номериңиз (Ушул жерге өзүңүздүн номериңизди 996 менен баштап жазыңыз)
+            // Боштук (пробел) жана "+" белгиси жок болушу керек!
+            const myPhoneNumber = "996227091126"; 
+
+            // Кардар киргизген маалыматтарды алабыз
+            const name = document.getElementById('username').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+
+            // Товарлардын көлөмүн алабыз
+            const mykQty = document.getElementById('myk-qty').value;
+            const cementQty = document.getElementById('cement-qty').value;
+            const shpakQty = document.getElementById('shpak-qty').value;
+
+            // Эгер кардар дарегин же атын жазбай койсо, эскертүү беребиз
+            if (!name || !phone || !address) {
+                alert("Сураныч, жеткирүү маалыматтарын толук толтуруңуз!");
+                return;
+            }
+
+            // Тандалган товарларды текшеребиз
+            let orderDetails = "";
+            let totalSum = 0;
+
+            if (mykQty > 0) {
+                orderDetails += `📌 Мык: ${mykQty} кг (${mykQty * 120} сом)\n`;
+                totalSum += mykQty * 120;
+            }
+            if (cementQty > 0) {
+                orderDetails += `📌 Цемент: ${cementQty} кап (${cementQty * 450} сом)\n`;
+                totalSum += cementQty * 450;
+            }
+            if (shpakQty > 0) {
+                orderDetails += `📌 Шпаклёвка: ${shpakQty} кап (${shpakQty * 380} сом)\n`;
+                totalSum += shpakQty * 380;
+            }
+
+            // Эгер эч бир товар тандалбаса
+            if (orderDetails === "") {
+                alert("Сураныч, жок дегенде бир товардын көлөмүн киргизиңиз!");
+                return;
+            }
+
+            // WhatsApp билдирүүсүнүн текстин даярдайбыз
+            let message = `🛒 *ЖАҢЫ ЗАКАЗ!*\n\n`;
+            message += `👤 *Кардар:* ${name}\n`;
+            message += `📞 *Телефон:* ${phone}\n`;
+            message += `📍 *Дарек:* ${address}\n\n`;
+            message += `📦 *Товарлар:*\n${orderDetails}\n`;
+            message += `💰 *Жалпы сумма:* ${totalSum} сом`;
+
+            // Текстти интернет шилтемеге ылайыктап коддойбуз
+            const encodedMessage = encodeURIComponent(message);
+
+            // WhatsApp шилтемесин түзөбүз
+            const whatsappUrl = `https://wa.me/${myPhoneNumber}?text=${encodedMessage}`;
+
+            // Кардарды WhatsApp'ка багыттайбыз
+            window.open(whatsappUrl, '_blank');
+        }
+    </script>
+
+</body>
+</html>
